@@ -7,6 +7,7 @@
 #SBATCH --mem-per-cpu=2G
 #SBATCH --time=3-00:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
+#SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=bamMerger-%x.log
 
 ####################	Help Message	####################
@@ -17,17 +18,16 @@ Help()
 	echo "produce a merged BAM with a user-defined name"
 	echo 
 	echo "Usage:"
-	echo '	sbatch --job-name=[jobName] --mail-user=[email] /path/to/bamMerger.sh [bamDir] [mergedBam]'
+	echo '	sbatch --job-name=[jobName] /path/to/bamMerger.sh [bamDir] [mergedBam]'
 	echo 
 	echo "Argument Descriptions:"
 	echo "	[-h]		Print this message"
 	echo "	[jobName]	The name of the SLURM job, must be unique"
-	echo "	[email]		The user's email address to receive notifications"
 	echo "	[bamDir]	The user-defined directory that contains all input BAM files to be merged"
 	echo "	[mergedBam]	The name of the output merged BAM"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/bamMerger.sh /gpfs/scratch/username/splitBams/ test.merged.bam'
+	echo '	sbatch --job-name=test ~/subscriptr/bamMerger.sh /gpfs/scratch/username/splitBams/ test.merged.bam'
 	echo 
 }
 

@@ -7,6 +7,7 @@
 #SBATCH --mem-per-cpu=6G
 #SBATCH --time=5-00:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
+#SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=sraPrefetch-%x.log
 
 ####################	Help Message	####################
@@ -17,17 +18,16 @@ Help()
 	echo "1) list of accession IDs, 2) path to SRA-configured directory, 3) job name for capturing failed downloads"
 	echo 
 	echo "Usage:"
-	echo '	sbatch --job-name=[jobName] --mail-user=[email] /path/to/sraFilePrefetcher.sh [sraAccessionList] [sraDir] [jobName]'
+	echo '	sbatch --job-name=[jobName] /path/to/sraFilePrefetcher.sh [sraAccessionList] [sraDir] [jobName]'
 	echo 
 	echo "Argument Descriptions:"
 	echo "	[-h]			Print this message"
 	echo "	[jobName]		The name of the SLURM job, must be unique"
-	echo "	[email]			The user's email address to receive notifications"
 	echo "	[sraAccessionList]	The user-provided text file with SRA accession IDs (one ID per line, no header)"
 	echo "	[sraDir]		The absolute path to the 'sra/' directroy, must be SRA-configured with command 'vdb-config -i'"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt /gpfs/scratch/username/ncbi/sra/ test'
+	echo '	sbatch --job-name=test ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt /gpfs/scratch/username/ncbi/sra/ test'
 	echo 
 }
 

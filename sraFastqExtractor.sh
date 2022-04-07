@@ -7,6 +7,7 @@
 #SBATCH --mem-per-cpu=12G
 #SBATCH --time=10-00:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
+#SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=sraFastqExtraction-%x.log
 
 ####################	Help Message	####################
@@ -17,16 +18,15 @@ Help()
 	echo "to directory that contains SRA data files"
 	echo 
 	echo "Usage:"
-	echo '	sbatch --job-name=[jobName] --mail-user=[email] /path/to/sraFastqExtractor.sh [sraFileDir]'
+	echo '	sbatch --job-name=[jobName] /path/to/sraFastqExtractor.sh [sraFileDir]'
 	echo 
 	echo "Argument Descriptions:"
 	echo "	[-h]		Print this message"
 	echo "	[jobName]	The name of the SLURM job, must be unique"
-	echo "	[email]		The user's email address to receive notifications"
 	echo "	[sraFileDir]	The absolute path to the directory that contains .sra files to fastq-dump'"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/sraFastqExtractor.sh /gpfs/scratch/username/ncbi/sra/batchToFastqDump/'
+	echo '	sbatch --job-name=test ~/subscriptr/sraFastqExtractor.sh /gpfs/scratch/username/ncbi/sra/batchToFastqDump/'
 	echo 
 }
 

@@ -7,6 +7,7 @@
 #SBATCH --mem-per-cpu=2G
 #SBATCH --time=1-00:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
+#SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=cramConverter-%x.log
 
 ####################	Help Message	####################
@@ -17,16 +18,15 @@ Help()
 	echo "output these BAMs into a subdirectory"
 	echo 
 	echo "Usage:"
-	echo '	sbatch --job-name=[jobName] --mail-user=[email] /path/to/cramConverter.sh [cramDir]'
+	echo '	sbatch --job-name=[jobName] /path/to/cramConverter.sh [cramDir]'
 	echo 
 	echo "Argument Descriptions:"
 	echo "	[-h]		Print this message"
 	echo "	[jobName]	The name of the SLURM job, must be unique"
-	echo "	[email]		The user's email address to receive notifications"
 	echo "	[cramDir]	The user-defined directory that contains all input CRAM files to be converted"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/cramConverter.sh /gpfs/scratch/usernam/crams/'
+	echo '	sbatch --job-name=test ~/subscriptr/cramConverter.sh /gpfs/scratch/usernam/crams/'
 	echo 
 }
 

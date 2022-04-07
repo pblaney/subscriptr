@@ -7,6 +7,7 @@
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=3-00:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
+#SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=bamMerger-%x.log
 
 ####################	Help Message	####################
@@ -16,16 +17,15 @@ Help()
 	echo "This script will tidy up a user-provided BAM by removing any unmapped reads with non-zero MAPQ"
 	echo 
 	echo "Usage:"
-	echo '	sbatch --job-name=[jobName] --mail-user=[email] /path/to/tidyBam.sh [inputBam]'
+	echo '	sbatch --job-name=[jobName] /path/to/tidyBam.sh [inputBam]'
 	echo 
 	echo "Argument Descriptions:"
 	echo "	[-h]		Print this message"
 	echo "	[jobName]	The name of the SLURM job, must be unique"
-	echo "	[email]		The user's email address to receive notifications"
 	echo "	[inputBam]	The user-provided BAM to tidy"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/tidyBam.sh test.bam'
+	echo '	sbatch --job-name=test ~/subscriptr/tidyBam.sh test.bam'
 	echo 
 }
 

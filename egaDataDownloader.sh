@@ -7,6 +7,7 @@
 #SBATCH --mem-per-cpu=1G
 #SBATCH --time=10-00:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
+#SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=egaDataDownloader-%x.log
 
 ####################	Help Message	####################
@@ -21,17 +22,16 @@ Help()
 	echo "	     https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-with-commands"
 	echo 
 	echo "Usage:"
-	echo '	sbatch --job-name=[jobName] --mail-user=[email] /path/to/egaDataDownloader.sh [egafAccessionList] [egaCredentials] [jobName]'
+	echo '	sbatch --job-name=[jobName] /path/to/egaDataDownloader.sh [egafAccessionList] [egaCredentials] [jobName]'
 	echo 
 	echo "Argument Descriptions:"
 	echo "	[-h]			Print this message"
 	echo "	[jobName]		The name of the SLURM job, must be unique"
-	echo "	[email]			The user's email address to receive notifications"
 	echo "	[egafAccessionList]	The user-provided text file with EGAF accession IDs (one ID per line, no header)"
 	echo "	[egaCredentials]	The user-provided JSON file with EGA login credentials, see https://ega-archive.org"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/egaDataDownloader.sh egafAccessionList.txt egaCredentials.json test'
+	echo '	sbatch --job-name=test ~/subscriptr/egaDataDownloader.sh egafAccessionList.txt egaCredentials.json test'
 	echo 
 }
 
