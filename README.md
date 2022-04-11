@@ -21,4 +21,4 @@ Each script includes a help message that can be displayed the same for all: `./s
 | `hintPre.sh` | perform the preprocessing step of HiNT pipeline |
 | `hintCnv.sh` | perform the CNV calling step of HiNT pipeline |
 | `hintTl.sh` | perform the translocation calling step of HiNT pipeline |
-| `hintWorkflow.sh` | Wrapper script to run HiNT pipeline using SLURM |
+| `hintWorkflow.sh` | wrapper script to run HiNT pipeline using SLURM |
