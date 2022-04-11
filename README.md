@@ -15,7 +15,7 @@ Each script includes a help message that can be displayed the same for all: `./s
 | `tidyBam.sh` | tidy up BAM by removing any unmapped reads with non-zero MAPQ |
 
 
-| DEPRECIATED|
+| DEPRECIATED | |
 | Script | Quick Description |
 | --- | --- |
 | `hintPre.sh` | perform the preprocessing step of HiNT pipeline |
