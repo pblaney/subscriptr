@@ -14,8 +14,8 @@ Each script includes a help message that can be displayed the same for all: `./s
 | `sraFilePrefetcher.sh` | prefetch SRA data into a subdirectory |
 | `tidyBam.sh` | tidy up BAM by removing any unmapped reads with non-zero MAPQ |
 
+## Depreciated
 
-| DEPRECIATED | |
 | Script | Quick Description |
 | --- | --- |
 | `hintPre.sh` | perform the preprocessing step of HiNT pipeline |
