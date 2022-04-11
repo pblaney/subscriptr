@@ -19,6 +19,7 @@ Each script includes a help message that can be displayed the same for all: `./s
 | Script | Quick Description |
 | --- | --- |
 | `hintPre.sh` | perform the preprocessing step of HiNT pipeline |
+| `sambambaFlagstat.sh` | quality check of alignment metrics after preprocessing |
 | `hintCnv.sh` | perform the CNV calling step of HiNT pipeline |
 | `hintTl.sh` | perform the translocation calling step of HiNT pipeline |
 | `hintWorkflow.sh` | wrapper script to run HiNT pipeline using SLURM |
