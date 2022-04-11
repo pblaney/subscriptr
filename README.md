@@ -13,3 +13,12 @@ Each script includes a help message that can be displayed the same for all: `./s
 | `sraFastqExtractor.sh` | dump the FASTQs from SRA data into a subdirectory |
 | `sraFilePrefetcher.sh` | prefetch SRA data into a subdirectory |
 | `tidyBam.sh` | tidy up BAM by removing any unmapped reads with non-zero MAPQ |
+
+
+| DEPRECIATED|
+| Script | Quick Description |
+| --- | --- |
+| `hintPre.sh` | perform the preprocessing step of HiNT pipeline |
+| `hintCnv.sh` | perform the CNV calling step of HiNT pipeline |
+| `hintTl.sh` | perform the translocation calling step of HiNT pipeline |
+| `hintWorkflow.sh` | Wrapper script to run HiNT pipeline using SLURM |
