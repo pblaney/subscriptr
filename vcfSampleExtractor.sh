@@ -27,7 +27,7 @@ Help()
 	echo "	[filterExpression]	The user-provided filter expression to use for further extraction (default is to remove homozygous ref genotypes ""'"'GT="'"0|0"'"'"')"
 	echo 
 	echo "Usage Example:"
-	echo "	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/vcfSampleExtractor.sh /gpfs/scratch/username/input.vcf ""'"'GT="'"0|0"'"'"'"
+	echo "	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/vcfSampleExtractor.sh sample1 /gpfs/scratch/username/input.vcf ""'"'GT="'"0|0"'"'"'"
 	echo 
 }
 
