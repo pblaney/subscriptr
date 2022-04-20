@@ -28,7 +28,7 @@ Help()
 	echo "	[sampleVcf]	The user-provided sample VCF they wish to use as the known SNVs/InDels"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test ~/subscriptr/neatGenReads.sh /gpfs/scratch/username/input.vcf'
+	echo '	sbatch --job-name=test ~/subscriptr/neatGenReads.sh input.vcf'
 	echo 
 }
 
