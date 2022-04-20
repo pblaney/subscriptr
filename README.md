@@ -13,6 +13,7 @@ Each script includes a help message that can be displayed the same for all: `./s
 | `sraFastqExtractor.sh` | dump the FASTQs from SRA data into a subdirectory |
 | `sraFilePrefetcher.sh` | prefetch SRA data into a subdirectory |
 | `tidyBam.sh` | tidy up BAM by removing any unmapped reads with non-zero MAPQ |
+| `vcfSampleExtractor.sh` | extract all records in a VCF for a given sample |
 
 ## Depreciated
 
