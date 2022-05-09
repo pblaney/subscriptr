@@ -11,6 +11,7 @@ Each script includes a help message that can be displayed the same for all: `./s
 | `egaDataDownloader.sh` | download EGA data into a subdirectory |
 | `fileRenamer.sh` | rename files within a directory based on file of names |
 | `neatGenReads.sh` | simulate genomic reads to produce PE FASTQs and gold standard BAM/VCF |
+| `sftpBackgroundExecutor.sh` | executes a series of SFTP commands in the background |
 | `sraFastqExtractor.sh` | dump the FASTQs from SRA data into a subdirectory |
 | `sraFilePrefetcher.sh` | prefetch SRA data into a subdirectory |
 | `tidyBam.sh` | tidy up BAM by removing any unmapped reads with non-zero MAPQ |
