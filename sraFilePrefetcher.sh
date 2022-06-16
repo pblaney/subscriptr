@@ -105,7 +105,7 @@ vdb-config --prefetch-to-cwd
 sraPrefetch
 
 # Create list of any files that failed the download
-grep "failed to download" sraPrefetch-"${jobName}".log | sed -e 's,.*failed to download ,,' > failedDownloads-"${jobName}".err
+#grep "failed to download" sraPrefetch-"${jobName}".log | sed -e 's,.*failed to download ,,' > failedDownloads-"${jobName}".err
 
 echo 
 echo "###########################################################"
