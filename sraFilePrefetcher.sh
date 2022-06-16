@@ -69,28 +69,36 @@ echo
 sraListFile=$1
 ngcFilePath=${2:-""}
 
-if [[ ${ngcFilePath} != "" ]]; then
-	ngcOption="--ngc ${ngcFilePath}"
-else
-	ngcOption=""
-fi
-
 # Function that loops through list of SRA accession IDs and prefetches each .sra
 # file in a subset of full dataset
 sraPrefetch() {
 	while read -r sraAccession
 	do
 		# Get the .sra file
-		prefetch "${sraAccession}" \
-		--progress \
-		--resume yes \
-		--max-size 500G \
-		--log-level debug \
-		--output-directory "${PWD}/${sraAccession}" \
-		"${ngcOption}" 
+		if [[ ${ngcFilePath} != "" ]]; then
+
+			prefetch "${sraAccession}" \
+			--progress \
+			--resume yes \
+			--max-size 500G \
+			--log-level debug \
+			--ngc "${ngcFilePath}"
+
+		else
+
+			prefetch "${sraAccession}" \
+			--progress \
+			--resume yes \
+			--max-size 500G \
+			--log-level debug \
+
+		fi
 
 	done < "${sraListFile}"
 }
+
+# Override vdb-config setup to download SRA files to current working directory
+vdb-config --prefetch-to-cwd
 
 # Call the function
 sraPrefetch
