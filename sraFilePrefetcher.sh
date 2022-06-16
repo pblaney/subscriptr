@@ -91,7 +91,7 @@ sraPrefetch() {
 			--progress \
 			--resume yes \
 			--max-size 500G \
-			--log-level debug \
+			--log-level debug
 
 		fi
 
@@ -108,18 +108,25 @@ sraPrefetch
 sleep 7
 
 totalSraAccession=$(cat ${sraListFile} | wc -l)
-successfulDownloads=$(grep -E "'SRR[1-9]+' was downloaded successfully" sraPrefetch-"${jobName}".log | wc -l)
-failedDownloads=$(grep "failed to download" sraPrefetch-"${jobName}".log | wc -l)
+successfulDownloads=$(grep -E "SRR.*[1-9]' was downloaded successfully" sraPrefetch-"${jobName}".log | wc -l)
 
-if [[ ${failedDownloads} != 0 ]]; then
+if [[ ${successfulDownloads} == ${totalSraAccession} ]]; then
+	echo 
+	echo "Total       ===> ${totalSraAccession}"
+	echo 
+	echo "Successful  ===> ${successfulDownloads}"
+else
+	failedDownloads=$(grep "failed to download" sraPrefetch-"${jobName}".log | wc -l)
 	grep "failed to download" sraPrefetch-"${jobName}".log | sed -e 's|.*failed to download ||' > failedDownloads-"${jobName}".err
+
+	echo 
+	echo "Total       ===> ${totalSraAccession}"
+	echo 
+	echo "Successful  ===> ${successfulDownloads}"
+	echo 
+	echo "Failed      ===> ${failedDownloads}"
 fi
 
-echo "Total       ===> ${totalSraAccession}"
-echo 
-echo "Successful  ===> ${successfulDownloads}"
-echo 
-echo "Failed      ===> ${failedDownloads}"
 echo 
 echo "###########################################################"
 echo 
