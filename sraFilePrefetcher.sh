@@ -105,11 +105,11 @@ vdb-config --prefetch-to-cwd
 sraPrefetch
 
 # Output helpful log information based on successful and failed downloads
-sleep 7
+#sleep 7
 
 totalSraAccession=$(cat ${sraListFile} | wc -l)
-successfulDownloads=$(grep -E "'SRR[1-9]+' was downloaded successfully" sraPrefetch-"${jobName}".log | wc -l)
-failedDownloads=$(grep "failed to download" sraPrefetch-"${jobName}".log | wc -l)
+#successfulDownloads=$(grep -E "'SRR[1-9]+' was downloaded successfully" sraPrefetch-"${jobName}".log | wc -l)
+#failedDownloads=$(grep "failed to download" sraPrefetch-"${jobName}".log | wc -l)
 
 #if [[ ${failedDownloads} != 0 ]]; then
 #	grep "failed to download" sraPrefetch-"${jobName}".log | sed -e 's|.*failed to download ||' > failedDownloads-"${jobName}".err
@@ -117,9 +117,9 @@ failedDownloads=$(grep "failed to download" sraPrefetch-"${jobName}".log | wc -l
 
 echo "Total       ===> ${totalSraAccession}"
 echo 
-echo "Successful  ===> ${successfulDownloads}"
+#echo "Successful  ===> ${successfulDownloads}"
 echo 
-echo "Failed      ===> ${failedDownloads}"
+#echo "Failed      ===> ${failedDownloads}"
 echo 
 echo "###########################################################"
 echo 
