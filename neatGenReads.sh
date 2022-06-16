@@ -68,7 +68,7 @@ sampleVcf=$1
 sampleName=$(echo ${sampleVcf} | sed 's|.vcf||')
 
 cmd="
-singularity exec -B \${PWD}:/home/toolshed/data --pwd /home/toolshed/data neat-3.0.simg \
+singularity exec -B \${PWD}:/home/toolshed/data --pwd /home/toolshed/data ~/subscriptr/containers/neat-3.0.simg \
 python /home/toolshed/neat-genreads-3.0/gen_reads.py \
 -r Homo_sapiens_assembly38.canonical.fasta \
 -R 151 \
