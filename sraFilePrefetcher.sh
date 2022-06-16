@@ -18,7 +18,7 @@ Help()
 	echo "1) list of accession IDs, 2) optionally, the path to the .ngc file"
 	echo 
 	echo "Usage:"
-	echo '	sbatch --job-name=[jobName] /path/to/sraFilePrefetcher.sh [sraAccessionList] [ngcFilePath]'
+	echo '	sbatch --job-name=[jobName] /path/to/sraFilePrefetcher.sh [sraAccessionList] [jobName] [ngcFilePath]'
 	echo 
 	echo "Argument Descriptions:"
 	echo "	[-h]			Print this message"
@@ -27,11 +27,11 @@ Help()
 	echo "	[ngcFilePath]		Optional: The absolute path to the .ngc file for decrypting access controlled data"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt'
+	echo '	sbatch --job-name=test ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt test'
 	echo 
 	echo '	~~~ OR ~~~'
 	echo 
-	echo '	sbatch --job-name=test ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt ~/prj_1234.ngc'
+	echo '	sbatch --job-name=test ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt test ~/prj_1234.ngc'
 	echo 
 }
 
@@ -64,10 +64,11 @@ module add sratoolkit/2.10.9
 module list -t
 echo 
 
-# Set variables to hold the file that contains SRA accession IDs and 
+# Set variables to hold the file that contains SRA accession IDs, SLURM job name, and 
 # optionally the path to the .ngc file for access controlled data (e.g. dbGaP data)
 sraListFile=$1
-ngcFilePath=${2:-""}
+jobName=$2
+ngcFilePath=${3:-""}
 
 # Function that loops through list of SRA accession IDs and prefetches each .sra
 # file in a subset of full dataset
@@ -104,7 +105,7 @@ vdb-config --prefetch-to-cwd
 sraPrefetch
 
 # Create list of any files that failed the download
-grep "failed to download" sraPrefetch-"${SLURM_JOB_NAME}".log | sed -e 's,.*failed to download ,,' > failedDownloads-"${SLURM_JOB_NAME}".err
+grep "failed to download" sraPrefetch-"${jobName}".log | sed -e 's,.*failed to download ,,' > failedDownloads-"${jobName}".err
 
 echo 
 echo "###########################################################"
