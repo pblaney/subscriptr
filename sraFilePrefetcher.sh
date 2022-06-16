@@ -91,7 +91,7 @@ sraPrefetch() {
 			--progress \
 			--resume yes \
 			--max-size 500G \
-			--log-level debug \
+			--log-level debug
 
 		fi
 
