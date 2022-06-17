@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem-per-cpu=4G
-#SBATCH --time=5-00:00:00
+#SBATCH --time=10-00:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
 #SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=sraFastqExtraction-%x.log
@@ -110,12 +110,19 @@ fastqExtraction() {
 		fi
 		
 		# gzip each output FASTQ file
+		echo 
+		echo "Compressing FASTQs with Gzip...."
 		gzip *.fastq
 
 		# Remove temporary files
+		echo 
+		echo "Cleaning temp folder...."
 		rm -rf tmp/*
 
-		# Move back to base directory
+		# Finish and bove back to base directory to begin next accession
+		echo 
+		echo "${sraAccession}  ===>  D O N E"
+		echo 
 		cd ../
 
 	done < ${sraListFile}
@@ -123,6 +130,29 @@ fastqExtraction() {
 
 # Call the function
 fastqExtraction
+
+# Output helpful log information based on successful and failed downloads
+sleep 7
+
+totalSraAccession=$(cat ${sraListFile} | wc -l)
+successfulDownloads=$(grep -E "SRR.*[1-9]   ===>  D O N E" sraFastqExtraction-"${SLURM_JOB_NAME}".log | wc -l)
+
+if [[ ${successfulDownloads} == ${totalSraAccession} ]]; then
+	echo 
+	echo "Total       ===> ${totalSraAccession}"
+	echo 
+	echo "Successful  ===> ${successfulDownloads}"
+else
+	numberOfLeftovers=$(( ${totalSraAccession} - ${successfulDownloads} ))
+	tail -n "${numberOfLeftovers}" ${sraListFile} > failedFasterqDump-"${SLURM_JOB_NAME}".err
+
+	echo 
+	echo "Total       ===> ${totalSraAccession}"
+	echo 
+	echo "Successful  ===> ${successfulDownloads}"
+	echo 
+	echo "Failed      ===> ${numberOfLeftovers}"
+fi
 
 echo 
 echo "###########################################################"
