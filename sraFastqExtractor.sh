@@ -69,14 +69,6 @@ echo
 sraListFile=$1
 ngcFilePath=${2:-""}
 
-#fastqDir="${sraSubdir}fastqs"
-#sraCompletedDir="${sraSubdir}completedExtraction"
-
-# Make directory FASTQ output directory and completed extraction directory
-# if they don't exist
-#mkdir -p "$fastqDir"
-#mkdir -p "$sraCompletedDir"
-
 # Create a function that downloads FASTQ files using .sra file
 fastqExtraction() {
 	while read -r sraAccession
