@@ -4,7 +4,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem-per-cpu=2G
+#SBATCH --mem-per-cpu=4G
 #SBATCH --time=5-00:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
 #SBATCH --mail-user=patrick.blaney@nyulangone.org
@@ -91,7 +91,7 @@ fastqExtraction() {
 		if [[ ${ngcFilePath} != "" ]]; then
 
 			fasterq-dump "${sraAccession}" \
-			--mem 4G \
+			--mem 2G \
 			--temp tmp/ \
 			--threads 8 \
 			--progress \
@@ -101,7 +101,7 @@ fastqExtraction() {
 		else
 
 			fasterq-dump "${sraAccession}" \
-			--mem 4G \
+			--mem 2G \
 			--temp tmp/ \
 			--threads 8 \
 			--progress \
