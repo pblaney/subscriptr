@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#SBATCH --partition=cpu_long
+#SBATCH --partition=cpu_medium
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=12G
-#SBATCH --time=10-00:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --mem-per-cpu=2G
+#SBATCH --time=5-00:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
 #SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=sraFastqExtraction-%x.log
@@ -14,19 +14,24 @@
 Help()
 {
 	# Display help message
-	echo "This script will dump the FASTQs from SRA data into a subdirectory based on user-provided path"
-	echo "to directory that contains SRA data files"
+	echo "This script will dump the FASTQs from SRA data within the specific SRA accession directory based on user-provided:"
+	echo "1) list of accession IDs, 2) optionally, the path to the .ngc file"
 	echo 
 	echo "Usage:"
-	echo '	sbatch --job-name=[jobName] /path/to/sraFastqExtractor.sh [sraFileDir]'
+	echo '	sbatch --job-name=[jobName] /path/to/sraFastqExtractor.sh [sraAccessionList] [ngcFilePath]'
 	echo 
 	echo "Argument Descriptions:"
 	echo "	[-h]		Print this message"
 	echo "	[jobName]	The name of the SLURM job, must be unique"
-	echo "	[sraFileDir]	The absolute path to the directory that contains .sra files to fastq-dump'"
+	echo "	[sraAccessionList]	The user-provided text file with SRA accession IDs (one ID per line, no header)"
+	echo "	[ngcFilePath]		Optional: The absolute path to the .ngc file for decrypting access controlled data"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test ~/subscriptr/sraFastqExtractor.sh /gpfs/scratch/username/ncbi/sra/batchToFastqDump/'
+	echo '	sbatch --job-name=test ~/subscriptr/sraFastqExtractor.sh sraAccessionList.txt'
+	echo 
+	echo '	~~~ OR ~~~'
+	echo 
+	echo '	sbatch --job-name=test ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt ~/prj_1234.ngc'
 	echo 
 }
 
@@ -48,38 +53,70 @@ while getopts ":h" option;
 set -euo pipefail
 
 echo "###########################################################"
-echo "#                      SRA FASTQ-dump                     #"
+echo "#                     SRA Fasterq-dump                    #"
 echo "###########################################################"
 echo 
 
 # Load SRA Toolkit module to environment
-module add sratoolkit/2.9.1
+module add sratoolkit/2.10.9
 
 # List modules for quick debugging
 module list -t
 echo 
 
-# Set variables to hold user defined subdirectory that contains input .sra files
-# and where a subdirectory will be made for the FASTQs output directory and the completed .sra extractions
-sraSubdir=$1
-fastqDir="${sraSubdir}fastqs"
-sraCompletedDir="${sraSubdir}completedExtraction"
+# Set variables to hold the file that contains SRA accession IDs, and 
+# optionally the path to the .ngc file for access controlled data (e.g. dbGaP data)
+sraListFile=$1
+ngcFilePath=${2:-""}
+
+#fastqDir="${sraSubdir}fastqs"
+#sraCompletedDir="${sraSubdir}completedExtraction"
 
 # Make directory FASTQ output directory and completed extraction directory
 # if they don't exist
-mkdir -p "$fastqDir"
-mkdir -p "$sraCompletedDir"
+#mkdir -p "$fastqDir"
+#mkdir -p "$sraCompletedDir"
 
 # Create a function that downloads FASTQ files using .sra file
 fastqExtraction() {
-	for sraFile in "${sraSubdir}"*".sra"
+	while read -r sraAccession
 	do	
+		# Move into accession-specific directory that contains .sra file
+		cd ${sraAccession}/
+
+		# Make temp directory
+		mkdir -p tmp/
 
 		# Get the FASTQ formatted reads from the SRA, https://edwards.sdsu.edu/research/fastq-dump/
-		fastq-dump "${sraFile}" --origfmt --skip-technical --read-filter pass --split-3 --gzip -O "${fastqDir}" 
+		if [[ ${ngcFilePath} != "" ]]; then
+
+			fasterq-dump "${sraAccession}" \
+			--mem 4G \
+			--temp tmp/ \
+			--threads 8 \
+			--progress \
+			--log-level debug \
+			--ngc "${ngcFilePath}"
+
+		else
+
+			fasterq-dump "${sraAccession}" \
+			--mem 4G \
+			--temp tmp/ \
+			--threads 8 \
+			--progress \
+			--log-level debug
+
+		fi
 		
-		# Move used .sra file to completed subdirectory
-		mv "${sraFile}" "${sraCompletedDir}"
+		# gzip each output FASTQ file
+		gzip *.fastq
+
+		# Remove temporary files
+		rm -rf tmp/*
+
+		# Move back to base directory
+		cd ../
 
 	done
 }
