@@ -118,7 +118,7 @@ fastqExtraction() {
 		# Move back to base directory
 		cd ../
 
-	done
+	done < ${sraListFile}
 }
 
 # Call the function
