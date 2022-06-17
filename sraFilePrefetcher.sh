@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem-per-cpu=6G
-#SBATCH --time=5-00:00:00
+#SBATCH --time=1-00:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
 #SBATCH --output=sraPrefetch-%x.log
 
@@ -17,7 +17,7 @@ Help()
 	echo "1) list of accession IDs, 2) optionally, the path to the .ngc file"
 	echo 
 	echo "Usage:"
-	echo '	sbatch --job-name=[jobName] --mail-user=[email] /path/to/sraFilePrefetcher.sh [sraAccessionList] [jobName] [ngcFilePath]'
+	echo '	sbatch --job-name=[jobName] --mail-user=[email] /path/to/sraFilePrefetcher.sh [sraAccessionList] [ngcFilePath]'
 	echo 
 	echo "Argument Descriptions:"
 	echo "	[-h]			Print this message"
@@ -27,11 +27,11 @@ Help()
 	echo "	[ngcFilePath]		Optional: The absolute path to the .ngc file for decrypting access controlled data"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt test'
+	echo '	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt'
 	echo 
 	echo '	~~~ OR ~~~'
 	echo 
-	echo '	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt test ~/prj_test.ngc'
+	echo '	sbatch --job-name=test --mail-user=example@nyulangone.org ~/subscriptr/sraFilePrefetcher.sh sraAccessionList.txt ~/prj_test.ngc'
 	echo 
 }
 
@@ -64,11 +64,10 @@ module add sratoolkit/2.10.9
 module list -t
 echo 
 
-# Set variables to hold the file that contains SRA accession IDs, SLURM job name, and 
+# Set variables to hold the file that contains SRA accession IDs, and 
 # optionally the path to the .ngc file for access controlled data (e.g. dbGaP data)
 sraListFile=$1
-jobName=$2
-ngcFilePath=${3:-""}
+ngcFilePath=${2:-""}
 
 # Function that loops through list of SRA accession IDs and prefetches each .sra
 # file in a subset of full dataset
@@ -108,7 +107,7 @@ sraPrefetch
 sleep 7
 
 totalSraAccession=$(cat ${sraListFile} | wc -l)
-successfulDownloads=$(grep -E "SRR.*[1-9]' was downloaded successfully" sraPrefetch-"${jobName}".log | wc -l)
+successfulDownloads=$(grep -E "SRR.*[1-9]' was downloaded successfully" sraPrefetch-"${SLURM_JOB_NAME}".log | wc -l)
 
 if [[ ${successfulDownloads} == ${totalSraAccession} ]]; then
 	echo 
@@ -116,8 +115,8 @@ if [[ ${successfulDownloads} == ${totalSraAccession} ]]; then
 	echo 
 	echo "Successful  ===> ${successfulDownloads}"
 else
-	failedDownloads=$(grep "failed to download" sraPrefetch-"${jobName}".log | wc -l)
-	grep "failed to download" sraPrefetch-"${jobName}".log | sed -e 's|.*failed to download ||' > failedDownloads-"${jobName}".err
+	failedDownloads=$(grep "failed to download" sraPrefetch-"${SLURM_JOB_NAME}".log | wc -l)
+	grep "failed to download" sraPrefetch-"${SLURM_JOB_NAME}".log | sed -e 's|.*failed to download ||' > failedDownloads-"${SLURM_JOB_NAME}".err
 
 	echo 
 	echo "Total       ===> ${totalSraAccession}"
