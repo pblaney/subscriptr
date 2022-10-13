@@ -107,7 +107,7 @@ sraPrefetch
 sleep 7
 
 totalSraAccession=$(cat ${sraListFile} | wc -l)
-successfulDownloads=$(grep -E "SRR.*[1-9]' was downloaded successfully" sraPrefetch-"${SLURM_JOB_NAME}".log | wc -l)
+successfulDownloads=$(grep -E "SRR.*[0-9]' was downloaded successfully" sraPrefetch-"${SLURM_JOB_NAME}".log | wc -l)
 
 if [[ ${successfulDownloads} == ${totalSraAccession} ]]; then
 	echo 
