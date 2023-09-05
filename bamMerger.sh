@@ -3,9 +3,9 @@
 #SBATCH --partition=cpu_medium
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
-#SBATCH --mem-per-cpu=2G
-#SBATCH --time=3-00:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --mem-per-cpu=1G
+#SBATCH --time=12:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
 #SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=bamMerger-%x.log
@@ -54,8 +54,7 @@ echo "###########################################################"
 echo 
 
 # Load Sambamba/SAMtools modules
-module add sambamba/0.6.8
-module add samtools/1.10
+module add samtools/1.16
 
 # List modules for quick debugging
 module list -t
@@ -71,7 +70,7 @@ bamList=$(ls -1 "${bamDir}"*".bam" | tr '\n' ' ')
 
 # Issue the Sambamba merge command
 cmd="
-sambamba-0.6.8 merge -t 4 -p ${mergedBam} ${bamList}
+samtools merge -o - --threads 7 ${bamList} | samtools sort --threads 7 -o ${mergedBam}
 "
 echo "CMD: ${cmd}"
 eval "${cmd}"
