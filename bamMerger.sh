@@ -4,7 +4,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=6
-#SBATCH --mem-per-cpu=6G
+#SBATCH --mem-per-cpu=8G
 #SBATCH --time=12:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
 #SBATCH --mail-user=patrick.blaney@nyulangone.org
