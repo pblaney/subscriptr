@@ -3,9 +3,9 @@
 #SBATCH --partition=cpu_medium
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=6
 #SBATCH --mem-per-cpu=6G
-#SBATCH --time=24:00:00
+#SBATCH --time=12:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
 #SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=bamMerger-%x.log
@@ -70,7 +70,7 @@ bamList=$(ls -1 "${bamDir}"*".bam" | tr '\n' ' ')
 
 # Issue the Sambamba merge command
 cmd="
-samtools merge -o - --threads 7 ${bamList} | samtools sort --threads 7 -m 4G -o ${mergedBam}
+samtools merge -o - --threads 5 ${bamList} | samtools sort --threads 5 -m 3G -o ${mergedBam}
 "
 echo "CMD: ${cmd}"
 eval "${cmd}"
