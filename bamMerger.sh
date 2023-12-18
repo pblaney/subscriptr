@@ -70,7 +70,7 @@ bamList=$(ls -1 "${bamDir}"*".bam" | tr '\n' ' ')
 
 # Issue the Sambamba merge command
 cmd="
-samtools merge -o - --threads 5 ${bamList} | samtools sort --threads 5 -m 3G -o ${mergedBam}
+samtools merge -o - --threads 5 ${bamList} | samtools sort --threads 5 -m 2G -o ${mergedBam}
 "
 echo "CMD: ${cmd}"
 eval "${cmd}"
