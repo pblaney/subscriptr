@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#SBATCH --partition=cpu_medium
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=6
