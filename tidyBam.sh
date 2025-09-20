@@ -2,9 +2,9 @@
 
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=6
+#SBATCH --cpus-per-task=7
 #SBATCH --mem-per-cpu=2G
-#SBATCH --time=5:00:01
+#SBATCH --time=8:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
 #SBATCH --mail-user=patrick.blaney@nyulangone.org
 #SBATCH --output=tidyBam-%x.log

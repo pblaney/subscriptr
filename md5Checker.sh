@@ -7,7 +7,7 @@
 #SBATCH --time=8:00:00
 #SBATCH --mail-type=BEGIN,FAIL,END
 #SBATCH --mail-user=patrick.blaney@nyulangone.org
-#SBATCH --output=md5checksum-%x.log
+#SBATCH --output=checksum-%x.log
 
 ####################	Help Message	####################
 Help()
@@ -16,15 +16,16 @@ Help()
 	echo "This script will calculate the MD5 hash for all files matching the regex"
 	echo 
 	echo "Usage:"
-	echo '	/path/to/md5Checker.sh [fileRegex] [md5checksumFile]'
+	echo '	sbatch --job-name=[jobName] /path/to/md5Checker.sh [fileRegex] [md5checksumFile]'
 	echo 
 	echo "Argument Descriptions:"
 	echo "	[-h]			Print this message"
+	echo "	[jobName]		The name of the SLURM job, must be unique"
 	echo "	[fileRegex]		The user-provided regex to grab files to generate MD5 hash"
 	echo "	[md5checksumFile]	Output file that will contain the per file MD5 hashes"
 	echo 
 	echo "Usage Example:"
-	echo '	~/subscriptr/md5Checker.sh *.ba* test'
+	echo '	sbatch --job-name=test ~/subscriptr/md5Checker.sh *.bam test'
 	echo 
 }
 
