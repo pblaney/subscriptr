@@ -3,12 +3,12 @@
 #SBATCH --partition=cpu_medium
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=2
-#SBATCH --mem-per-cpu=4G
-#SBATCH --time=3-00:00:00
+#SBATCH --cpus-per-task=6
+#SBATCH --mem-per-cpu=2G
+#SBATCH --time=5:00:01
 #SBATCH --mail-type=BEGIN,FAIL,END
 #SBATCH --mail-user=patrick.blaney@nyulangone.org
-#SBATCH --output=bamMerger-%x.log
+#SBATCH --output=tidyBam-%x.log
 
 ####################	Help Message	####################
 Help()
@@ -52,7 +52,7 @@ echo "###########################################################"
 echo 
 
 # Load SAMtools modules
-module add samtools/1.10
+module add samtools/1.20
 
 # List modules for quick debugging
 module list -t
@@ -66,11 +66,15 @@ outputBam=$(echo "${inputBam}" | sed -E 's|.bam$|.tidy.bam|')
 
 # Issue SAMtools command to filter out unmapped reads for BAM's use in downstream processes
 cmd="
-samtools view -bF 4 ${inputBam} > ${outputBam}
+samtools view -@ 6 -bF 4 ${inputBam} > ${outputBam}
 "
 
 echo "CMD: ${cmd}"
 eval "${cmd}"
+sleep 2
+
+# Index the BAM
+samtools index -@ 6 ${outputBam}
 
 # SAMtools command for the sanity check
 samtools quickcheck "${outputBam}" && echo "PASSED" \
