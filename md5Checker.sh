@@ -25,7 +25,7 @@ Help()
 	echo "	[md5checksumFile]	Output file that will contain the per file MD5 hashes"
 	echo 
 	echo "Usage Example:"
-	echo '	sbatch --job-name=test ~/subscriptr/md5Checker.sh *.bam test'
+	echo '	sbatch --job-name=test ~/subscriptr/md5Checker.sh "*.bam" test'
 	echo 
 }
 
@@ -58,8 +58,7 @@ md5checksumFile=$2
 # Grab the files from the regex
 files=$(ls ${fileRegex})
 
-cmd="md5sum ${fileRegex} > md5sums-${md5checksumFile}.txt"
-eval_cmd="md5sum ${files} > md5sums-${md5checksumFile}.txt"
+cmd="md5sum ${files} > md5sums-${md5checksumFile}.txt"
 echo "CMD: ${cmd}"
 echo "eval_cmd: ${eval_cmd}"
 #eval "${cmd}"
