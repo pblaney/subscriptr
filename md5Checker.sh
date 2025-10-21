@@ -56,9 +56,9 @@ fileRegex=$1
 md5checksumFile=$2
 
 # Grab the files from the regex
-files=$(ls "${fileRegex}")
+files=$(ls ${fileRegex})
 
-cmd='md5sum "${fileRegex}" > md5sums-"${md5checksumFile}".txt'
+cmd="md5sum ${fileRegex} > md5sums-${md5checksumFile}.txt"
 eval_cmd="md5sum ${files} > md5sums-${md5checksumFile}.txt"
 echo "CMD: ${cmd}"
 echo "eval_cmd: ${eval_cmd}"
