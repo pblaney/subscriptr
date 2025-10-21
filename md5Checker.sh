@@ -60,8 +60,7 @@ files=$(ls ${fileRegex})
 
 cmd="md5sum ${files} > md5sums-${md5checksumFile}.txt"
 echo "CMD: ${cmd}"
-echo "eval_cmd: ${eval_cmd}"
-#eval "${cmd}"
+eval "${cmd}"
 
 echo 
 echo "###########################################################"
