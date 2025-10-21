@@ -51,14 +51,14 @@ echo "#                  MD5 Checksum Generator                 #"
 echo "###########################################################"
 echo 
 
-# Set variable to hold the file with list of files to check and recall
+# Set variable to hold the file with list of files to check
 fileRegex=$1
 md5checksumFile=$2
 
-# Grab the files from the regex
-files=$(ls ${fileRegex})
+# Grab all files to generate a checksum for
+fileList=$(ls -1 ${fileRegex} | tr '\n' ' ')
 
-cmd="md5sum ${files} > md5sums-${md5checksumFile}.txt"
+cmd="md5sum ${fileList} > md5sums-${md5checksumFile}.txt"
 echo "CMD: ${cmd}"
 eval "${cmd}"
 
